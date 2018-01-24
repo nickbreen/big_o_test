@@ -1,20 +1,18 @@
 import unittest
 import big_o
-from solution import solution
+import solution
 
 class Test(unittest.TestCase):
 
-    def test(self):
-        self.assertEqual(solution(9), 2)
-        self.assertEqual(solution(529), 4)
-        self.assertEqual(solution(20), 1)
-        self.assertEqual(solution(15), 0)
-        self.assertEqual(solution(1041), 5)
+    def testPerfLinear(self):
+        gen = lambda n: big_o.datagen.integers(n, 1, 100)
+        best, others = big_o.big_o(solution.linear, gen, n_repeats=100)
+        self.assertIsInstance(best, big_o.complexities.Linear)
 
-    def testPerf(self):
-        gen = lambda n: big_o.datagen.large_integers(n)
-        best, others = big_o.big_o(solution, gen, n_repeats=100)
-        self.assertEqual(big_o.complexities.Linear, best)
+    def testPerfQuad(self):
+        gen = lambda n: big_o.datagen.integers(n, 1, 100)
+        best, others = big_o.big_o(solution.quad, gen, n_repeats=10, min_n=100, max_n=1000)
+        self.assertIsInstance(best, big_o.complexities.Quadratic)
 
 if __name__ == '__main__':
     unittest.main()
